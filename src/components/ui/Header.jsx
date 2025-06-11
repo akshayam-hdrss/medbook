@@ -79,14 +79,14 @@ function Header({ exec = null }) {
         }}
       >
         {/* Left Section: Logo/Title */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-center space-x-4">
           {/* Logo/Title with Dummy Logo */}
           <Link href="/" className="flex-shrink-0 flex items-center">
             {" "}
             {/* Added flex items-center for alignment */}
            
             <h1
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl  text-white tracking-wide"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl  text-white tracking-wide flex items-center"
               style={{
                 fontFamily: 'Impact',
               }}
