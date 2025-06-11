@@ -19,6 +19,7 @@ import Products from "@/components/Home/Products";
 import Daily from "@/components/Home/Daily";
 import { getNumberofComplaints } from "@/firebase/firestore/complaints";
 import TopStars from "@/components/Home/topstars";
+import AdCarousel from "@/components/ui/AdCarousel";
 
 export default function Home() {
   const [randomData, setRandomData] = useState(null);
@@ -65,18 +66,13 @@ export default function Home() {
         <Header />
       </div>
       <main className="relative z-10 flex-1">
-        <section className="relative h-[70vh] min-h-[500px] w-full overflow-hidden flex items-center justify-center">
-          <picture className="absolute inset-0 w-full h-full">
-            <img
-              src="/bannerimg.jpg"
-              alt="Banner"
-              className="w-full h-full object-cover object-center"
-            />
-          </picture>
-          <div className="relative z-10 text-center px-4"></div>
-        </section>
+        <div>
+          <AdCarousel ads={ads} />
 
-        <section className="py-20">
+        </div>
+        
+
+        <section className="py-5">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-16">
               <h2 className="text-5xl font-extrabold mb-4 tracking-tight leading-tight">
@@ -96,7 +92,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 px-6 md:px-12">
+        <section className="py-10 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-5xl font-extrabold mb-4 tracking-tight leading-tight">
               Topstars <br className="hidden sm:inline" />
@@ -105,7 +101,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 px-6 md:px-12">
+        <section className="py-10 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10">
               <h2 className="text-5xl font-extrabold mb-4 tracking-tight leading-tight">
@@ -123,13 +119,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 px-6 md:px-12">
+        <section className="py-10 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <Daily />
           </div>
         </section>
 
-        <section className="py-16 px-6 md:px-12">
+        <section className="py-10 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-5xl font-extrabold mb-4 tracking-tight leading-tight">
               Explore More Categories <br className="hidden sm:inline" />
@@ -138,7 +134,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-16 px-6 md:px-12">
+        <section className="py-10 px-6 md:px-12">
           <h2 className="text-5xl font-extrabold mb-4 tracking-tight leading-tight">
             Complaints and Feedback <br className="hidden sm:inline" />
           </h2>

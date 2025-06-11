@@ -15,8 +15,8 @@ function Footer() {
         {/* Logo & About */}
         <div className="flex flex-col items-start">
           <Image
-            src="/Medbook_logo.png"
-            alt="MediCare Logo"
+            src="/Medbook_Logo.png"
+            alt="Medbook Logo"
             width={120}
             height={120}
           />
