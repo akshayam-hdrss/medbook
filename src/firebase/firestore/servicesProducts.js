@@ -146,7 +146,6 @@ export async function deleteServicesAndProducts(
     return "failure";
   }
 }
-
 export async function deleteServicesAndProductsDoc(
   rootprevious = null,
   beforeprevious = null,
@@ -157,43 +156,35 @@ export async function deleteServicesAndProductsDoc(
   type
 ) {
   let result = null;
-  let e = null;
 
   try {
-    let docUrl;
-    console.log(photos);
-    docUrl = `${type}/${rootprevious}/${rootprevious}col/${beforeprevious}/${beforeprevious}col/${previous}/${previous}col`;
+    const docUrl = `${type}/${rootprevious}/${rootprevious}col/${beforeprevious}/${beforeprevious}col/${previous}/${previous}col`;
 
-    if (photos != "") {
-      photos.map((photo) => {
-        const fileRef = ref(storage, photo);
-        deleteObject(fileRef)
-          .then(() => {
-            console.log("photo deleted successfully");
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      });
+    // ✅ Delete gallery photos if valid
+    if (Array.isArray(photos) && photos.length > 0) {
+      for (const photo of photos) {
+        if (photo && typeof photo === "string") {
+          const fileRef = ref(storage, photo);
+          await deleteObject(fileRef)
+            .then(() => console.log("photo deleted:", photo))
+            .catch((err) => console.log("photo delete error:", err));
+        }
+      }
     }
-    if (profilepic != "") {
+
+    // ✅ Delete profile picture if valid
+    if (profilepic && typeof profilepic === "string") {
       const fileRef = ref(storage, profilepic);
-      deleteObject(fileRef)
-        .then(() => {
-          console.log("profile deleted successfully");
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      await deleteDoc(doc(db, docUrl, id));
-
-      return "success";
-    } else {
-      await deleteDoc(doc(db, docUrl, id));
-      return "success";
+      await deleteObject(fileRef)
+        .then(() => console.log("profile deleted"))
+        .catch((err) => console.log("profile delete error:", err));
     }
+
+    // ✅ Finally delete the Firestore document
+    await deleteDoc(doc(db, docUrl, id));
+    return "success";
   } catch (e) {
-    console.log(e);
+    console.log("delete failed:", e);
     return "failure";
   }
 }

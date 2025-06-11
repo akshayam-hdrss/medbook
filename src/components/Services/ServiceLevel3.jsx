@@ -1,4 +1,5 @@
 "use client";
+import BookingModal from "@/components/ui/BookingModal";
 import React, { useState, useEffect } from "react";
 import { getName } from "@/firebase/firestore/servicesProducts";
 import Header from "@/components/ui/Header";
@@ -12,38 +13,48 @@ import YoutubeEmbed from "@/components/ui/YoutubeEmbed";
 import { subscribeToServiceAndProductDocs } from "@/firebase/firestore/servicesProducts";
 import { MdOutlineCall } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa";
+import { GrSchedules } from "react-icons/gr";
 
 function ServiceLevel3({ id, secondid, thirdid }) {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [data, setData] = useState();
   const [ads, setAds] = useState();
   const [capitalized, setCapitalized] = useState();
   const [link, setLink] = useState();
 
   useEffect(() => {
-    const unsubscribe = subscribeToServiceAndProductDocs(
-      setData,
-      thirdid,
-      secondid,
-      id,
-      "services"
-    );
-    const fetch = async () => {
-      const capitalized = await getName(id, secondid, thirdid, "services");
-      setCapitalized(capitalized);
-      const link = await getYt("services", id, secondid, thirdid);
-      setLink(link);
-      const ads = await getServiceAds("services", id, secondid, thirdid, null);
-      setAds(ads);
-    };
-    fetch();
-    return () => {
-      unsubscribe();
-    };
-  });
+  const unsubscribe = subscribeToServiceAndProductDocs(
+    setData,
+    thirdid,
+    secondid,
+    id,
+    "services"
+  );
+
+  const fetch = async () => {
+    const capitalized = await getName(id, secondid, thirdid, "services");
+    setCapitalized(capitalized);
+
+    const link = await getYt("services", id, secondid, thirdid);
+    setLink(link);
+
+    const ads = await getServiceAds("services", id, secondid, thirdid, null);
+    setAds(ads);
+  };
+
+  fetch();
+  return () => {
+    unsubscribe(); 
+  };
+}, [id, secondid, thirdid]);
   return (
     <div>
       <Header />
       <BackButton />
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
       <Advertisement ads={ads} />
       <div>
         <h1 className="font-bold text-2xl pb-20 p-6">{capitalized}</h1>
@@ -76,6 +87,16 @@ function ServiceLevel3({ id, secondid, thirdid }) {
                   >
                     <MdOutlineCall />
                   </a>
+                  <button
+                    className="px-4 py-2 rounded-md bg-blue-600 text-white font-medium"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsBookingModalOpen(true);
+                    }}
+                  >
+                    <GrSchedules />
+                  </button>
                   <a
                     className="px-4 py-2 rounded-md bg-green-600 text-white"
                     href={`https://wa.me/${item.whatsapp}`}

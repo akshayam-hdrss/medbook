@@ -56,8 +56,7 @@ function EditDocPopup({
         : { businessname: deleteDoc.businessname }),
       ...(editNumber ? { mobile: editNumber } : { mobile: deleteDoc.mobile }),
       ...(editWhatsapp
-        ? { whatsapp: editWhatsapp }
-        : { whatsapp: deleteDoc.whatsapp }),
+        ? { whatsapp: editWhatsapp } : { whatsapp: deleteDoc.whatsapp }),
       ...(editAddLine1
         ? { addline1: editAddLine1 }
         : { addline1: deleteDoc.addline1 }),
@@ -178,7 +177,7 @@ function EditDocPopup({
                 <p className="text-xl font-medium mb-1">Business Name</p>
                 <Input
                   type="text"
-                  defaultValue={deleteDoc?.businessname}
+                  defaultValue={deleteDoc?.businessName}
                   onChange={(e) => setEditBusinessName(e.target.value)}
                   placeholder="Business Name"
                   className="border border-kaavi pl-4 py-3 mb-6"
@@ -212,14 +211,14 @@ function EditDocPopup({
                 <p className="text-xl font-medium mb-1">Address Line 1</p>
                 <Input
                   type="text"
-                  defaultValue={deleteDoc?.addline1}
+                  defaultValue={deleteDoc?.addLine1}
                   onChange={(e) => setEditAddLine1(e.target.value)}
                   className="border border-kaavi pl-4 py-3 mb-6"
                 />
                 <p className="text-xl font-medium mb-1">Address Line 2</p>
                 <Input
                   type="text"
-                  defaultValue={deleteDoc?.addline2}
+                  defaultValue={deleteDoc?.addLine2}
                   onChange={(e) => setEditAddLine2(e.target.value)}
                   className="border border-kaavi pl-4 py-3 mb-6"
                 />

@@ -1,4 +1,5 @@
 "use client";
+import BookingModal from "@/components/ui/BookingModal";
 import React, { useState, useEffect, useRef } from "react";
 import { getServiceAndProductDocs } from "@/firebase/firestore/servicesProducts";
 import { IoIosCheckmarkCircle } from "react-icons/io";
@@ -26,6 +27,7 @@ function ServiceLevel4({ id, secondid, thirdid, fourthid }) {
   const [checkReview, setCheckReview] = useState();
   const [averageRating, setAverageRating] = useState(0);
   const [para, setPara] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -37,54 +39,61 @@ function ServiceLevel4({ id, secondid, thirdid, fourthid }) {
         "services"
       );
       const data2 = await getReviews(fourthid);
-      setReviews(data2);
       setData(data);
+      setReviews(data2);
     };
-    fetch();
-  }, []);
+
+    if (id && secondid && thirdid && fourthid) {
+      fetch();
+    }
+  }, [id, secondid, thirdid, fourthid]);
 
   useEffect(() => {
-    const fetch = () => {
-      if (user) {
-        const data1 =
-          reviews && reviews.filter((item) => item.userId === user.uid);
-        setCheckReview(data1);
-        if (reviews) {
-          const totalRating = reviews.reduce(
-            (acc, curr) => acc + curr.rating,
-            0
-          );
-          const avgRating = totalRating / reviews.length;
-          const avg = Math.round(avgRating * 2) / 2;
-          setAverageRating(avg);
-        } else {
-          setAverageRating(0); // No reviews, no rating
-        }
-      }
-    };
-    fetch();
-  }, [user, reviews]);
+    if (!user || !reviews || reviews.length === 0) return;
+
+    const userReview = reviews.filter((item) => item.userId === user.uid);
+    setCheckReview(userReview);
+
+    const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0);
+    const avgRating = totalRating / reviews.length;
+    const avg = Math.round(avgRating * 2) / 2;
+
+    setAverageRating(avg);
+  }, [user?.uid, reviews]);
 
   return (
     <div>
       <Header />
       <BackButton />
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
       {data && (
         <div>
           <div className="w-full">
-          <img
+            {/* <img
   src={data.background}
   alt="background image"
   className="border-4 border-red-400 w-full"
-/>
+/> */}
 
-<div className="border-4 border-red-400 rounded-md inline-block shadow-md -mt-[80px] ml-[26vw]">
+            {/* <div className="border-4 border-red-400 rounded-md inline-block shadow-md -mt-[80px] ml-[26vw]">
   <img
     src={data.profile}
     alt="profile"
     className="object-cover aspect-[4/5] w-24 h-30"
   />
-</div>
+</div> */}
+            <div className="flex justify-center">
+              <div className="border-4 border-red-400 rounded-md shadow-md">
+                <img
+                  src={data.profile}
+                  alt="profile"
+                  className="object-cover aspect-[4/5] w-40 h-52 rounded-md"
+                />
+              </div>
+            </div>
             <div className="flex flex-col items-center text-center justify-evenly py-6 pt-0">
               <h1 className="font-bold text-3xl pb-4">{data.name}</h1>
               <div className="flex justify-evenly items-center h-[60px] gap-x-6 mb-6 border border-grey px-4 rounded-lg">
@@ -103,16 +112,24 @@ function ServiceLevel4({ id, secondid, thirdid, fourthid }) {
                 {data?.district} - {data?.pincode}
               </p>
 
-              <div className="my-4">
+              <div className="my-4 flex justify-center gap-4 flex-wrap">
                 <a
                   href={`tel:${data.mobile}`}
-                  className="my-6 mr-2 font-medium bg-kaavi text-white rounded-lg p-3 px-4"
+                  className="my-2 font-medium bg-kaavi text-white rounded-lg p-3 px-4"
                 >
                   Contact
                 </a>
+
+                <button
+                  className="my-2 font-medium bg-blue-600 text-white rounded-lg p-3 px-4"
+                  onClick={() => setIsBookingModalOpen(true)}
+                >
+                  Book Now
+                </button>
+
                 <a
                   href={`https://wa.me/${data.whatsapp}`}
-                  className="my-6 font-medium bg-green-600 text-white rounded-lg p-3 px-4"
+                  className="my-2 font-medium bg-green-600 text-white rounded-lg p-3 px-4"
                 >
                   Whatsapp
                 </a>
@@ -120,22 +137,32 @@ function ServiceLevel4({ id, secondid, thirdid, fourthid }) {
             </div>
 
             <h1 className="font-koulen text-3xl text-grey pb-4">About</h1>
-            <p
-              className={`px-2 text-justify relative transition-all duration-500 ${
+
+            <div
+              className={`border border-gray-300 rounded-md px-4 py-3 my-2 bg-white transition-all duration-500 ${
                 !para
-                  ? "max-h-[200px] overflow-hidden text-opacity-100 before:absolute before:bottom-0 before:left-0 before:w-full before:h-12 before:bg-gradient-to-t before:from-white before:to-transparent"
-                  : "text-opacity-100"
+                  ? "max-h-[300px] overflow-y-auto relative"
+                  : "max-h-none overflow-visible"
               }`}
+              style={{ whiteSpace: "pre-line" }}
             >
-              {data.about}
-            </p>
-            <div className="flex justify-center p-2 ">
-              <h1
+              {[...new Set(data.about.split("•").map((item) => item.trim()))]
+                .filter((item) => item)
+                .map((item, index) => (
+                  <p key={index} className="text-justify mb-2">
+                    {index > 0 && "• "}
+                    {item}
+                  </p>
+                ))}
+            </div>
+
+            <div className="flex justify-center p-2">
+              <button
                 onClick={() => setPara(!para)}
                 className="border-2 px-4 py-2 rounded-xl bg-kaavi text-white cursor-pointer"
               >
                 {para ? "Show Less" : "Learn More"}
-              </h1>
+              </button>
             </div>
             <h1 className="font-koulen text-3xl pt-10 text-grey">Video</h1>
             {data.video && <YoutubeEmbed embedId={data.video} />}

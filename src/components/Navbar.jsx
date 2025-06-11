@@ -1,66 +1,19 @@
 import React from "react";
-import { IoIosArrowForward } from "react-icons/io";
-import Link from "next/link";
+// No need to import IoIosArrowForward or Link if not used
+// import { IoIosArrowForward } from "react-icons/io";
+// import Link from "next/link";
 
 const Navbar = () => {
+  // If you want to completely remove the navbar, just return null or an empty div.
+  // This will prevent it from rendering anything on the screen.
   return (
+    // You can keep an empty div if you still need the component in the JSX structure,
+    // but its content will be empty, so it won't take up space.
     <div>
-      <aside className="sticky hidden lg:block top-16 left-0 h-screen">
-        <div className="p-5 pt-24">
-          <div className="flex justify-center">
-            <div className="">
-              {/* <div className="flex justify-center py-2">
-                <div className="w-[100px] h-[100px] bg-grey rounded-full"></div>
-              </div>
-              <h1 className="font-semibold text-2xl text-center">User Name</h1>
-              <h5 className="text-center">user@gmail.com</h5> */}
-              <div className="pt-5">
-                <Link
-                  href="/"
-                  className="flex mb-4 items-center justify-between"
-                >
-                  <p className="font-medium">Home</p>
-                  <IoIosArrowForward />
-                </Link>
-                <Link
-                  href="/about"
-                  className="flex mb-4 items-center justify-between"
-                >
-                  <p className="font-medium">About us</p>
-                  <IoIosArrowForward />
-                </Link>
-                <Link
-                  href="/services"
-                  className="flex mb-4 items-center justify-between"
-                >
-                  <p className="font-medium">Explore Services</p>
-                  <IoIosArrowForward />
-                </Link>
-                <Link
-                  href="/hdrss"
-                  className="flex mb-4 items-center justify-between"
-                >
-                  <p className="font-medium">HDRSS</p>
-                  <IoIosArrowForward />
-                </Link>
-                
-                
-               
-           
-
-                <div className="flex mb-4 items-center justify-between">
-                  <Link href="/contact">
-                    <p className="font-medium">Contact Us</p>
-                  </Link>
-                  <IoIosArrowForward />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
+      {/* The aside element and its content are removed. */}
+      {/* This ensures nothing is rendered on the left side where the Navbar used to be. */}
     </div>
   );
 };
 
-export default Navbar;
+export default Navbar;

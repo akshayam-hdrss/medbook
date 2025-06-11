@@ -65,7 +65,7 @@ function Services() {
           </div>
           <div className="mt-4 p-6 text-center ">
             <h1 className="font-koulen uppercase text-4xl text-kaavi tracking-wide">
-              services
+              Explore
             </h1>
             <div className="grid grid-cols-3 gap-y-10 gap-x-10 mt-8 place-items-center">
               {data &&
