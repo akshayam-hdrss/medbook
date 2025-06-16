@@ -53,16 +53,16 @@ function EditDocPopup({
       ...(editName ? { name: editName } : { name: deleteDoc.name }),
       ...(editBusinessName
         ? { businessname: editBusinessName }
-        : { businessname: deleteDoc.businessname }),
+        : { businessname: deleteDoc.businessName }),
       ...(editNumber ? { mobile: editNumber } : { mobile: deleteDoc.mobile }),
       ...(editWhatsapp
         ? { whatsapp: editWhatsapp } : { whatsapp: deleteDoc.whatsapp }),
       ...(editAddLine1
         ? { addline1: editAddLine1 }
-        : { addline1: deleteDoc.addline1 }),
+        : { addline1: deleteDoc.addLine1 }),
       ...(editAddLine2
         ? { addline2: editAddLine2 }
-        : { addline2: deleteDoc.addline2 }),
+        : { addline2: deleteDoc.addLine2 }),
       ...(editLandmark
         ? { landmark: editLandmark }
         : { landmark: deleteDoc.landmark }),
