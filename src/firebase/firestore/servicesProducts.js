@@ -301,6 +301,11 @@ export async function editServiceAndProductDocs(
       const newbackgroundUrl = await uploadBackground(type, newbackground, id);
       data.background = newbackgroundUrl;
     }
+    Object.keys(data).forEach((key) => {
+      if (data[key] === undefined) {
+        delete data[key];
+      }
+    });
     await updateDoc(
       doc(
         db,
